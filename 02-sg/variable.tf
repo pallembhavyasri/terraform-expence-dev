@@ -26,3 +26,13 @@ variable "frontend_sg_description"{
     default = "SG for frontend instance"
 }
 
+variable "bastion_sg_description"{
+    default = "SG for bastion instance"
+}
+
+
+variable "ansible_sg_description"{
+    default = "SG for ansible instance"
+}
+
+
