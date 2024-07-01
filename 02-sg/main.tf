@@ -64,7 +64,18 @@ resource "aws_security_group_rule" "db_backend" {
   security_group_id = module.db.sg_id #reciever ID 
 }
 
-#backend is accepting the connection from frontend
+#DB is accepting the connection from bastion
+
+resource "aws_security_group_rule" "db_bastion" {
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  source_security_group_id = module.bastion.sg_id # source is where you are getting traffic form 
+  security_group_id = module.db.sg_id #reciever ID 
+}
+
+#backend is accepting the connection from frontend,bastion,ansible
 
 resource "aws_security_group_rule" "backend_frontend" {
   type              = "ingress"
@@ -75,8 +86,26 @@ resource "aws_security_group_rule" "backend_frontend" {
   security_group_id = module.backend.sg_id #reciever ID 
 }
 
+resource "aws_security_group_rule" "backend_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.bastion.sg_id # source is where you are getting traffic form 
+  security_group_id = module.backend.sg_id #reciever ID 
+}
 
-#frontend is accepting the connection from internet
+resource "aws_security_group_rule" "backend_ansible" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.ansible.sg_id # source is where you are getting traffic form 
+  security_group_id = module.backend.sg_id #reciever ID 
+}
+
+
+#frontend is accepting the connection from internet,bastion,ansible
 
 resource "aws_security_group_rule" "frontend_public" {
   type              = "ingress"
@@ -86,4 +115,44 @@ resource "aws_security_group_rule" "frontend_public" {
   cidr_blocks = ["0.0.0.0/0"]
   #source is where you are getting traffic form is internet here is it not there hence we are kepping the cidr block  
   security_group_id = module.frontend.sg_id #reciever ID 
+}
+
+resource "aws_security_group_rule" "frontend_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.bastion.sg_id # source is where you are getting traffic form 
+  security_group_id = module.frontend.sg_id #reciever ID 
+}
+
+resource "aws_security_group_rule" "frontend_ansible" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = module.ansible.sg_id # source is where you are getting traffic form 
+  security_group_id = module.frontend.sg_id #reciever ID 
+}
+
+#public is accepting the connection from bastion,ansible
+
+resource "aws_security_group_rule" "bastion_public" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  #source is where you are getting traffic form is internet here is it not there hence we are kepping the cidr block  
+  security_group_id = module.bastion.sg_id #reciever ID 
+}
+
+resource "aws_security_group_rule" "ansible_public" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  #source is where you are getting traffic form is internet here is it not there hence we are kepping the cidr block  
+  security_group_id = module.ansible.sg_id #reciever ID 
 }

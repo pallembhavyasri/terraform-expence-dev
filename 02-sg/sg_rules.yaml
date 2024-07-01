@@ -1,53 +1,52 @@
 - name: SG Rules
-  sg: 
-  - expence-dev-db
-  - expence-dev-backend
-  - expence-dev-frontend
-  - expence-dev-bastion
-  - expence-dev-ansible
-  db: 
-  - name: db_backend
-    desc: db accepting connection  from backend 
-    source: backend
-    port: 3306 
-  - name: db_bastion
-    desc: db accpting from connection bastion
-    source: bastion 
-    port: 3306 #db will not have SHH (22) access as it will be handled by AWS
+  sg:
+    - expence-dev-db
+    - expence-dev-backend
+    - expence-dev-frontend
+    - expence-dev-bastion
+    - expence-dev-ansible
+  db:
+    - name: db_backend
+      desc: db accepting connection  from backend
+      source: backend
+      port: 3306
+    - name: db_bastion
+      desc: db accpting from connection bastion
+      source: bastion
+      port: 3306 #DM will not have the SSH access 
   backend:
-  - name: backend_frontend
-    desc: backend accepting connection from frontend 
-    source: frontend 
-    port: 8080
-  - name: backend_bastion
-    desc: backend accepting connection from bastion
-    source: bastion
-    port: 22 
-  - name: backend_ansible
-    desc: backend accepting connection from ansible 
-    source: ansible
-    port: 22
-  frontend: 
-  - name: frontend_public
-    desc: frontend accepting connection from public 
-    source: public 
-    port: 80
-  - name: frontend_ansible
-    desc: frontend accepting connection from ansible 
-    source: ansible
-    port: 22 
-  - name: frontend_bastion
-    desc: frontend accepting connection from bastion
-    source: bastion 
-    port: 22 
-  bastion: 
-  - name: bastion_public
-    desc: bastion accepting from public
-    source: public #idealy your home IP address/32 since it will change frequtly we rae giving public
-    port: 80 
-  ansible: 
-  - name: ansible_public 
-    desc: ansible accepting connection from public
-    source: public 
-    port: 80 
-
+    - name: backend_frontend
+      desc: backend accepting connection from frontend
+      source: frontend
+      port: 8080
+    - name: backend_bastion
+      desc: backend accepting connection from bastion
+      source: bastion
+      port: 22
+    - name: backend_ansible
+      desc: backend accepting connection from ansible
+      source: ansible
+      port: 22
+  frontend:
+    - name: frontend_public
+      desc: frontend accepting connection from public
+      source: public
+      port: 80
+    - name: frontend_ansible
+      desc: frontend accepting connection from ansible
+      source: ansible
+      port: 22
+    - name: frontend_bastion
+      desc: frontend accepting connection from bastion
+      source: bastion
+      port: 22
+  bastion:
+    - name: bastion_public
+      desc: bastion accepting from public
+      source: public
+      port: 22
+  ansible:
+    - name: ansible_public
+      desc: ansible accepting connection from public
+      source: public
+      port: 22
