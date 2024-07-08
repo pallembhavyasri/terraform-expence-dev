@@ -27,3 +27,9 @@ resource "aws_ssm_parameter" "database_subnet_ids" {
   type  = "StringList"
   value = join("," ,module.vpc-test.database_subnet_ids)
 }
+
+resource "aws_ssm_parameter" "db_subnet_group_name" {
+  name  = "/${var.project_name}/${var.environment}/db_subnet_group_name"
+  type  = "String"
+  value = module.vpc-test.database_subnet_group_name
+}
