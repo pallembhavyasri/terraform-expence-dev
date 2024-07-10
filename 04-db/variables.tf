@@ -13,3 +13,7 @@ variable "common_tags"{
         Environment= "dev"
     }
 }
+
+variable "zone_name"{
+    default = "bhavya.store"
+}

@@ -32,7 +32,7 @@ module "db" {
   )
 
   manage_master_user_password = true
-  password = "ExpenseApp@1"
+  password = "ExpenseApp1"
 
   skip_final_snapshot = true
 
@@ -62,5 +62,26 @@ module "db" {
         },
       ]
     },
+  ]
+}
+
+
+#craete R53 record for RDS database endpoint 
+
+module "records" {
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+  version = "~> 3.0"
+
+  zone_name = var.zone_name
+
+  records = [
+    {
+      name    = "db"
+      type    = "CNAME"
+      ttl = 1
+      records = [
+        module.db.db_instance_address
+      ]
+    }
   ]
 }
