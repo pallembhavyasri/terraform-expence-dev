@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket = "bhavya-remote-state"
-    key    = "terraform-dev-Backend" #we can give our key name
+    key    = "terraform-dev-apps" #we can give our key name
     region = "us-east-1"
     dynamodb_table = "bhavya-locking"
   }
