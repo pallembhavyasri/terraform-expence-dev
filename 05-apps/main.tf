@@ -61,6 +61,7 @@ module "ansible" {
         Name = "${var.project_name}-${var.environment}-ansible"
     }
   )
+  depends_on = [ module.backend, module.frontend ] #once FE,BE created then ansible needs to create 
 }
 
 module "records" {
