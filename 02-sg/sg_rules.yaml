@@ -1,3 +1,5 @@
+#here we use push based archi hence used ansible to connect with nodes
+
 - name: SG Rules
   sg:
     - expence-dev-db
